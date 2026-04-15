@@ -8,7 +8,6 @@
   <a href="https://github.com/NKhanh0908">
     <img src="https://komarev.com/ghpvc/?username=NKhanh0908&label=Profile%20views&color=0e75b6&style=flat" alt="profile views" />
   </a>
-  <!-- TODO: Thêm badge LinkedIn nếu có -->
   <a href="https://www.linkedin.com/in/khanh-nguyen-quoc-13110a324"><img src="https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin" /></a>
 </p>
 
@@ -16,8 +15,8 @@
 
 ##  About Me
 
--  I'm **Nguyen Quoc Khanh** — a 4th-year Computer Science student at **Saigon University**, based in **Ho Chi Minh City**
-- Intern Backend Developer — actively learning and growing every day
+-  I'm **Nguyen Quoc Khanh** — a 4th-year Information Systems student at **Saigon University**, based in **Ho Chi Minh City**
+- Java Backend Developer with **5 months of internship experience** at **VINIPR**, actively learning and growing every day
 - Deeply interested in **database internals** — from query optimization to scaling strategies
 -  Exploring **system design** concepts: caching, messaging, and distributed patterns
 -  Enjoy digging into how things work under the hood — not just making it run, but making it *right*
@@ -56,33 +55,36 @@
 
 ---
 
-### 🛒 [Sale Store Manager](https://github.com/kunengineer/sale-store-manager)
-> A full-stack store management system — React frontend connected to a Spring Boot backend, built to explore end-to-end product development.
+### 💘 [Dating Website](https://github.com/NKhanh0908/dating-website)
+> A real-time dating platform built with Spring Boot and ReactJS — exploring WebSocket, Redis caching, and full-stack integration.
 
-- 🖥️ **POS & Order Management** — Point-of-sale interface with real-time order tracking, area/table management, and customer handling
-- 📦 **Product & Staff Management** — CRUD operations for products, staff, and customers with role-based access
-- 📊 **Dashboard & Reports** — Sales overview and reporting module for business insights
-- 🔗 **Full-stack Integration** — React frontend communicates with Spring Boot REST APIs; first hands-on experience connecting FE and BE end-to-end
+- 🔍 **User Matching & Discovery** — Profile discovery with optimized filtered search using composite indexing on gender, age, and city
+- 💬 **Real-time Messaging** — Bidirectional WebSocket infrastructure for near-instant communication between users
+- 📰 **Activity Feed** — Dynamic feed keeping users engaged with platform activity
+- 🔐 **Authentication & Authorization** — Spring Security with JWT and Role-Based Access Control (RBAC) across all endpoints
 
 <details>
 <summary>📚 What I learned building this</summary>
 
-- **Frontend (React)**:
-  - Building SPA architecture with React Router v6 — nested routes and layout wrapping
-  - Managing server state efficiently with React Query (stale time, cache strategy, retry policy)
-  - Structuring reusable components and shared context with React Context API
-  - HTML/CSS/JS fundamentals applied in a real UI — layouts, responsiveness, and event handling
+- **Performance Optimization**:
+  - Composite index on `(gender, age, city)` — reduced filtered search response time from ~55ms to ~5ms on a 50,000-row dataset (verified via EXPLAIN ANALYZE)
+  - Redis caching for user profiles and session data — reduced average DB query count per request by ~40% on high-traffic endpoints (measured via query log analysis)
 
-- **Backend (Spring Boot)**:
-  - Designing relational database schemas for a retail domain from scratch
-  - Simplifying entity-to-DTO mapping with MapStruct — reducing boilerplate and improving maintainability
-  - Building clean REST APIs consumed by a real frontend client
+- **Real-time Communication**:
+  - Building bidirectional WebSocket infrastructure for seamless low-latency messaging
+  - Managing concurrent connections and message routing across users
+
+- **Backend Architecture**:
+  - Designing a 3-layer service architecture with 20+ REST API endpoints
+  - Applying Spring Security and JWT for robust stateless authentication
+  - Structuring a scalable schema for a social/matching domain from scratch
 
 - **General**:
-  - Understanding the full request lifecycle — from UI interaction to DB and back
-  - Debugging cross-layer issues between frontend and backend
+  - Balancing read performance vs. write overhead when applying caching and indexing strategies
+  - Debugging real-time communication issues across frontend and backend layers
 
 </details>
+
 ---
 
 ## 🛠️ Tech Stack
@@ -128,15 +130,6 @@
   Distributed Patterns   — Microservices, Saga pattern, Outbox pattern (hands-on in banking project)
   Backend Fundamentals    — Spring Security, REST API design, exception handling
 ```
-
----
-
-##  GitHub Stats
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=NKhanh0908&show_icons=true&theme=tokyonight&hide_border=true" height="165" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=NKhanh0908&layout=compact&theme=tokyonight&hide_border=true" height="165" />
-</p>
 
 ---
 
