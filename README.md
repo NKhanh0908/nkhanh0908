@@ -1,154 +1,183 @@
-<h1 align="center">Hi there, I'm Khanh 👋</h1>
+<div align="center">
 
-<p align="center">
-  <b>Backend Developer · Spring Boot · Database Engineering</b>
-</p>
+# Nguyen Quoc Khanh
+### Java Backend Developer · Database Engineering · System Design
 
-<p align="center">
-  <a href="https://github.com/NKhanh0908">
-    <img src="https://komarev.com/ghpvc/?username=NKhanh0908&label=Profile%20views&color=0e75b6&style=flat" alt="profile views" />
-  </a>
-  <a href="https://www.linkedin.com/in/khanh-nguyen-quoc-13110a324"><img src="https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin" /></a>
-</p>
+[![Profile Views](https://komarev.com/ghpvc/?username=NKhanh0908&label=Profile%20views&color=1a3a5c&style=flat)](https://github.com/NKhanh0908)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/khanh-nguyen-quoc-13110a324)
+[![Email](https://img.shields.io/badge/Gmail-EA4335?style=flat&logo=gmail&logoColor=white)](mailto:khanhnq0908@gmail.com)
+
+</div>
 
 ---
 
-##  About Me
+## About Me
 
--  I'm **Nguyen Quoc Khanh** — a 4th-year Information Systems student at **Saigon University**, based in **Ho Chi Minh City**
-- Java Backend Developer with **5 months of internship experience** at **VINIPR**, actively learning and growing every day
-- Deeply interested in **database internals** — from query optimization to scaling strategies
--  Exploring **system design** concepts: caching, messaging, and distributed patterns
--  Enjoy digging into how things work under the hood — not just making it run, but making it *right*
--  Reach me at: **khanhnq0908@gmail.com**
--  Fun fact: Nothing satisfies me more than turning a 3s query into a 30ms one 🚀
+4th-year **Information Systems** student at Saigon University (GPA 8.0/10.0), with 5 months of backend internship experience at **VINIPR**. I focus on building systems that are not just functional, but correct — from query execution plans to service layer design.
+
+What drives me: turning a 3-second query into a 30ms one, designing service boundaries that survive change, and understanding *why* something works, not just *that* it works.
+
+**Short-term goal:** Join a backend team where I can contribute to production systems and deepen expertise in distributed architecture within the next year.  
+**Long-term goal:** Grow into a Senior Backend Engineer specializing in high-performance, scalable systems.
 
 ---
 
-##  Featured Projects
+## Work Experience
 
-###  [Human Resource Management (HRM)](https://github.com/NKhanh0908/hrm)
-> A self-studied HRM system built to practice real-world backend architecture with Java & Spring Boot.
+### Backend Java Developer Intern — VINIPR CO., LTD.
+`Aug 2025 – Dec 2025 · Ho Chi Minh City`
 
-- **Employee Management** — REST APIs for managing employee profiles, departments, and organizational structure
-- **Payroll Module** — Salary calculation logic with configurable rules, built from scratch based on self-research
-- **Authentication & Authorization** — Secured with Spring Security, role-based access control per endpoint
-- **Hands-on Learning** — Designed independently to understand how enterprise HR systems are structured; may not reflect all production-grade conventions, but built with intention to learn the right way
+- Designed and maintained **20+ RESTful APIs** across 3 e-commerce modules (product, order, user management) using Spring Boot + MySQL, documented with Swagger for team-wide clarity
+- Collaborated in an **Agile/Scrum** team across 4 sprint cycles — daily stand-ups, peer code reviews, sprint planning
+- Refactored legacy service classes and resolved **N+1 query patterns** using SOLID principles, reducing redundant DB calls across core modules
+- Used **AI-assisted tools** (GitHub Copilot / Claude) to accelerate scaffolding and code review cycles
+
+---
+
+## Featured Projects
+
+### Dating Website
+`Spring Boot · Spring Security · JWT · WebSocket (STOMP) · Redis · MySQL · ReactJS`  
+`Feb 2026 – Present · Team of 3 (Fullstack)` · [GitHub](https://github.com/NKhanh0908/dating-website)
+
+A real-time dating platform — the main challenge was building low-latency communication and a fast discovery search over a large user dataset.
+
+**What I built & why it matters:**
+
+| Area | What I did | Result |
+|------|-----------|--------|
+| Real-time Chat | Replaced HTTP polling with **WebSocket (STOMP)**; secured handshake with JWT interception | Bidirectional low-latency messaging |
+| Auth & Security | Spring Security + JWT + custom rate-limiting filter on sensitive endpoints | Brute-force protection on login/match endpoints |
+| Discovery Search | Composite index on `(gender, age, city)` + Redis profile caching on high-traffic endpoints | Response time ~55ms → ~5ms on 50k rows (verified via `EXPLAIN ANALYZE`) |
+| Reliability | Unit & integration tests with **JUnit 5 + Mockito** covering matching logic and auth flows | Regression bugs reduced across core flows |
 
 <details>
-<summary> What I learned building this</summary>
+<summary>Technical decisions & tradeoffs</summary>
 
-- Structuring a multi-module Spring Boot project from scratch
-- Designing relational schemas.
-- Implementing JWT-based auth and role/permission management with Spring Security
-- Handling global exceptions and clean REST API design with Spring MVC
-- Understanding the gap between textbook knowledge and real-world backend conventions
-- **Performance Optimization & Scalability**:
-    - **Distributed Caching with Redis**: Implementing Cache-aside pattern to reduce database load for high-frequency read operations like Department lists and Employee profiles.
-    - **Database Indexing & Partitioning Strategy**: Designing effective B-Tree and Composite indexes for complex HR queries; applying Horizontal Partitioning for historical payroll data (Salary History) to maintain performance as data grows.
-    - **Query Optimization**: Analyzing execution plans (EXPLAIN ANALYZE) to eliminate N+1 problems and optimize heavy JOIN operations in reporting modules.
-- **DevOps & Infrastructure**:
-    - **Containerization with Docker**: Writing multi-stage Dockerfiles to create lightweight production images.
-    - **Orchestration with Docker Compose**: Managing a full-stack local environment including Spring Boot app, MySQL, and Redis with seamless networking.
-    - **Environment Configuration**: Managing externalized configurations for different environments (Dev, Staging, Prod).
-</details>
+**Why WebSocket over polling?**  
+Polling creates unnecessary DB reads and HTTP overhead at scale. WebSocket gives us a persistent connection with far lower latency, at the cost of connection state management — a worthwhile tradeoff for a chat feature.
 
----
+**Why composite index on `(gender, age, city)` and not separate indexes?**  
+MySQL's index merge is often less efficient than a well-ordered composite index for multi-column filter queries. By ordering columns from lowest to highest cardinality in the discovery query pattern, the composite index allows the engine to skip large portions of the table in a single B-tree traversal.
 
-### 💘 [Dating Website](https://github.com/NKhanh0908/dating-website)
-> A real-time dating platform built with Spring Boot and ReactJS — exploring WebSocket, Redis caching, and full-stack integration.
-
-- 🔍 **User Matching & Discovery** — Profile discovery with optimized filtered search using composite indexing on gender, age, and city
-- 💬 **Real-time Messaging** — Bidirectional WebSocket infrastructure for near-instant communication between users
-- 📰 **Activity Feed** — Dynamic feed keeping users engaged with platform activity
-- 🔐 **Authentication & Authorization** — Spring Security with JWT and Role-Based Access Control (RBAC) across all endpoints
-
-<details>
-<summary>📚 What I learned building this</summary>
-
-- **Performance Optimization**:
-  - Composite index on `(gender, age, city)` — reduced filtered search response time from ~55ms to ~5ms on a 50,000-row dataset (verified via EXPLAIN ANALYZE)
-  - Redis caching for user profiles and session data — reduced average DB query count per request by ~40% on high-traffic endpoints (measured via query log analysis)
-
-- **Real-time Communication**:
-  - Building bidirectional WebSocket infrastructure for seamless low-latency messaging
-  - Managing concurrent connections and message routing across users
-
-- **Backend Architecture**:
-  - Designing a 3-layer service architecture with 20+ REST API endpoints
-  - Applying Spring Security and JWT for robust stateless authentication
-  - Structuring a scalable schema for a social/matching domain from scratch
-
-- **General**:
-  - Balancing read performance vs. write overhead when applying caching and indexing strategies
-  - Debugging real-time communication issues across frontend and backend layers
+**Why Redis cache-aside and not write-through?**  
+User profiles are read far more often than they are updated. Cache-aside lets us populate the cache lazily on reads and invalidate on writes, without paying the write overhead on every profile update.
 
 </details>
 
 ---
 
-## 🛠️ Tech Stack
+### Human Resource Management System (ERP)
+`Spring Boot · Spring Security · Data JPA · Redis · JavaMail · Cloudinary · Docker · Grafana`  
+`Jun 2025 – Jul 2025 · Personal Project` · [GitHub](https://github.com/NKhanh0908/hrm)
+
+A self-studied full ERP system covering the complete employee lifecycle. Built independently to close the gap between academic knowledge and real-world backend architecture.
+
+**Scope:** 5 modules · 30+ REST endpoints
+
+| Module | Key Implementation |
+|--------|--------------------|
+| Recruitment | Job posting → application → offer pipeline via REST |
+| Employee | Profile management, department/org structure |
+| Attendance | Tracking with configurable rules |
+| Payroll | Salary calculation engine with configurable rules; batch job monitored via Grafana |
+| Training | Course assignment and completion tracking |
+
+**Engineering highlights:**
+
+- **SOLID architecture:** Loosely coupled service interfaces — new ERP modules plug in without modifying existing logic
+- **Security:** RBAC via Spring Security across all modules; OTP recovery with Redis TTL + brute-force lockout + async email (JavaMail)
+- **Observability:** Spring Actuator + Grafana dashboards for JVM memory, HTTP throughput, and payroll batch job performance — catching degradation before it becomes an incident
+- **Infrastructure:** Multi-stage Dockerfile for lightweight prod images; Docker Compose managing app + MySQL + Redis with proper network isolation
+
+<details>
+<summary>What I learned that surprised me</summary>
+
+- **Schema design under change:** HR domains look simple until you model historical salary data. Horizontal partitioning for `salary_history` by year prevented the table from becoming a performance bottleneck as data grew.
+- **The gap between "working" and "maintainable":** Refactoring God Service classes mid-project taught me more about SOLID than any textbook. When you feel the pain of a 400-line service class during a feature addition, the principles stop being abstract.
+- **Observability is not optional:** Adding Grafana late in the project showed me metrics I hadn't noticed — a payroll batch job that spiked memory predictably at month-end. Monitoring revealed behavior that code review never could.
+
+</details>
+
+---
+
+## Tech Stack
 
 ### Backend
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
-![Spring MVC](https://img.shields.io/badge/Spring_MVC-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
-![JPA/Hibernate](https://img.shields.io/badge/JPA_Hibernate-59666C?style=for-the-badge&logo=hibernate&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring-boot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=flat-square&logo=springsecurity&logoColor=white)
+![JPA/Hibernate](https://img.shields.io/badge/JPA_Hibernate-59666C?style=flat-square&logo=hibernate&logoColor=white)
+![JUnit5](https://img.shields.io/badge/JUnit_5-25A162?style=flat-square&logo=junit5&logoColor=white)
 
 ### Frontend
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-764ABC?style=flat-square&logo=redux&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 
 ### Databases & Caching
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
 
 ### Messaging & Real-time
-![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
-![WebSocket](https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
+![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat-square&logo=apache-kafka&logoColor=white)
+![WebSocket](https://img.shields.io/badge/WebSocket-010101?style=flat-square&logo=socketdotio&logoColor=white)
 
-### DevOps & Tools
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+### DevOps & Observability
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black)
+
+### AI-Augmented Development
+![Claude](https://img.shields.io/badge/Claude-CC785C?style=flat-square&logo=anthropic&logoColor=white)
+![GitHub Copilot](https://img.shields.io/badge/GitHub_Copilot-000000?style=flat-square&logo=github&logoColor=white)
+
+*Using AI tools for code scaffolding, refactoring, and review — with an emphasis on understanding the output, not just accepting it.*
 
 ---
 
-##  What I'm Exploring
+## Currently Exploring
 
 ```
-  Database Deep Dives    — Query execution plans, index strategies, slow query analysis
-  Schema Design           — Normalization, partitioning, and planning for scale
-  Caching Layer           — Redis for session, rate-limiting, and hot-data acceleration
-  Event-Driven Systems    — Kafka for async messaging and decoupled architecture
-  Distributed Patterns   — Microservices, Saga pattern, Outbox pattern (hands-on in banking project)
-  Backend Fundamentals    — Spring Security, REST API design, exception handling
+Database Internals     Query execution plans, index strategies, B-tree mechanics
+Schema Design          Normalization trade-offs, partitioning for write-heavy tables  
+Event-Driven Systems   Kafka for async decoupling, Outbox pattern for reliability
+Distributed Patterns   Saga pattern, idempotency, eventual consistency
+Microservices          Service decomposition, inter-service auth, API gateway patterns
 ```
 
 ---
 
-##  Let's Connect
+## Education
 
-<p align="left">
-  <a href="https://github.com/NKhanh0908">
-    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
-  </a>
-  <a href="https://www.linkedin.com/in/khanh-nguyen-quoc-13110a324">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
-  </a>
-  <a href="mailto:khanhnq0908@gmail.com">
-    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-</p>
+**Saigon University** · Bachelor of Information Systems · `2022 – Present`  
+GPA: **8.0 / 10.0**
+
+Coursework: OOP · Data Structures & Algorithms · Database Systems · MVC Architecture · RESTful API Design · Enterprise Software Development
+
+Academic research: *Prompt engineering for AI-assisted software development* — optimizing developer workflows with LLM tools, based on English-language technical sources.
 
 ---
 
-<p align="center">
-  <i>"Great code is built on a strong foundation — let's make systems that last!"</i>
-</p>
+## GitHub Stats
+
+<div align="center">
+
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=NKhanh0908&show_icons=true&theme=default&hide_border=true&count_private=true)
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=NKhanh0908&layout=compact&theme=default&hide_border=true)
+
+</div>
+
+---
+
+<div align="center">
+
+*"Great code is built on a strong foundation — let's make systems that last."*
+
+**Open to Junior / Mid Backend Java Developer opportunities in Ho Chi Minh City.**
+
+</div>
