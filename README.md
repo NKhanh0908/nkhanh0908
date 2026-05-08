@@ -163,17 +163,6 @@ Academic research: *Prompt engineering for AI-assisted software development* —
 
 ---
 
-## GitHub Stats
-
-<div align="center">
-
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=NKhanh0908&show_icons=true&theme=default&hide_border=true&count_private=true)
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=NKhanh0908&layout=compact&theme=default&hide_border=true)
-
-</div>
-
----
-
 <div align="center">
 
 *"Great code is built on a strong foundation — let's make systems that last."*
