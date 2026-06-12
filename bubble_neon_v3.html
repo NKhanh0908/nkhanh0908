@@ -1,0 +1,228 @@
+<style>
+  .bwrap {
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    height: 340px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace
+  }
+
+  canvas#bc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+  }
+
+  .b-header {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    z-index: 2;
+    pointer-events: none
+  }
+
+  .b-title {
+    font-size: 12px;
+    color: #e6edf3;
+    font-weight: 700;
+    letter-spacing: .06em
+  }
+
+  .b-sub {
+    font-size: 9px;
+    color: #8b949e;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    margin-top: 3px
+  }
+</style>
+<div class="bwrap">
+  <canvas id="bc"></canvas>
+  <div class="b-header">
+    <div class="b-title">NKhanh0908</div>
+    <div class="b-sub">// language distribution</div>
+  </div>
+</div>
+<script>
+  const canvas = document.getElementById('bc');
+  const ctx = canvas.getContext('2d');
+  const wrap = canvas.parentElement;
+  function resize() { canvas.width = wrap.offsetWidth; canvas.height = wrap.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const langs = [
+    { name: 'Java', pct: 55, color: '#ED8B00' },
+    { name: 'TypeScript', pct: 10, color: '#3B82F6' },
+    { name: 'SQL', pct: 13, color: '#00d4ff' },
+    { name: 'JavaScript', pct: 7, color: '#F7DF1E' },
+    { name: 'HTML', pct: 7, color: '#E34C26' },
+    { name: 'Python', pct: 5, color: '#3572A5' },
+    { name: 'CSS', pct: 3, color: '#a855f7' },
+  ];
+  const MIN_R = 22, MAX_R = 86;
+  const minP = Math.min(...langs.map(l => l.pct));
+  const maxP = Math.max(...langs.map(l => l.pct));
+  function getR(p) { return MIN_R + ((p - minP) / (maxP - minP)) * (MAX_R - MIN_R); }
+
+  let sparks = [];
+  let bubbles = langs.map(l => ({
+    ...l, r: getR(l.pct),
+    x: 0, y: 0,
+    vx: (Math.random() - .5) * 0.8,
+    vy: (Math.random() - .5) * 0.8,
+    opacity: 0, glow: 0,
+  }));
+
+  function initPositions() {
+    const W = canvas.width, H = canvas.height;
+    bubbles.forEach(b => { b.x = b.r + Math.random() * (W - b.r * 2); b.y = b.r + Math.random() * (H - b.r * 2); });
+  }
+  initPositions();
+
+  const nebulas = Array.from({ length: 5 }, (_, i) => ({
+    ox: Math.random(), oy: Math.random(),
+    speed: 0.00018 + Math.random() * 0.00012,
+    phase: Math.random() * Math.PI * 2,
+    color: ['#ED8B00', '#3B82F6', '#a855f7', '#0d2a3a', '#1a0d2e'][i],
+    size: 0.28 + Math.random() * 0.18,
+  }));
+
+  const gridDots = Array.from({ length: 120 }, () => ({
+    x: Math.random(), y: Math.random(),
+    size: 0.6 + Math.random() * 0.8,
+    opacity: 0.04 + Math.random() * 0.1,
+    speed: 0.00005 + Math.random() * 0.00008,
+    phase: Math.random() * Math.PI * 2,
+  }));
+
+  function drawBg(t) {
+    const W = canvas.width, H = canvas.height;
+    ctx.fillStyle = '#060910';
+    ctx.fillRect(0, 0, W, H);
+    nebulas.forEach(n => {
+      const x = (n.ox + Math.sin(t * n.speed + n.phase) * 0.12) * W;
+      const y = (n.oy + Math.cos(t * n.speed * 0.7 + n.phase) * 0.1) * H;
+      const r = n.size * Math.min(W, H);
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+      g.addColorStop(0, n.color + '18'); g.addColorStop(0.5, n.color + '08'); g.addColorStop(1, 'transparent');
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill();
+    });
+    ctx.save();
+    ctx.strokeStyle = '#ffffff06'; ctx.lineWidth = 0.5;
+    const step = 38;
+    for (let x = 0; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    ctx.restore();
+    gridDots.forEach(d => {
+      const px = ((d.x + Math.sin(t * d.speed + d.phase) * 0.05) % 1) * W;
+      const py = ((d.y + Math.cos(t * d.speed * 0.8 + d.phase) * 0.04) % 1) * H;
+      ctx.beginPath(); ctx.arc(px, py, d.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${d.opacity})`; ctx.fill();
+    });
+    const scanY = ((t * 0.018) % H);
+    const sg = ctx.createLinearGradient(0, scanY - 18, 0, scanY + 18);
+    sg.addColorStop(0, 'transparent'); sg.addColorStop(0.5, '#00d4ff09'); sg.addColorStop(1, 'transparent');
+    ctx.fillStyle = sg; ctx.fillRect(0, scanY - 18, W, 36);
+    ctx.save(); ctx.strokeStyle = '#00d4ff20'; ctx.lineWidth = 1;
+    const al = 50;
+    [[0, 0, 1, 1], [W, 0, -1, 1], [0, H, 1, -1], [W, H, -1, -1]].forEach(([cx, cy, sx, sy]) => {
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + sx * al, cy); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx, cy + sy * al); ctx.stroke();
+    });
+    ctx.restore();
+  }
+
+  function spawnSparks(x, y, cA, cB) {
+    for (let i = 0; i < 12 + Math.floor(Math.random() * 6); i++) {
+      const a = Math.random() * Math.PI * 2, sp = 1.5 + Math.random() * 3;
+      sparks.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, decay: 0.04 + Math.random() * 0.03, size: 1.5 + Math.random() * 2, color: Math.random() > .5 ? cA : cB });
+    }
+  }
+
+  function resolveCollisions() {
+    for (let i = 0; i < bubbles.length; i++) {
+      for (let j = i + 1; j < bubbles.length; j++) {
+        const a = bubbles[i], b = bubbles[j];
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const minD = a.r + b.r + 4;
+        if (dist < minD && dist > 0) {
+          const nx = dx / dist, ny = dy / dist;
+          const ov = (minD - dist) / 2;
+          a.x -= nx * ov; a.y -= ny * ov; b.x += nx * ov; b.y += ny * ov;
+          const rvx = b.vx - a.vx, rvy = b.vy - a.vy;
+          const dot = rvx * nx + rvy * ny;
+          if (dot < 0) {
+            const imp = dot * 0.65;
+            a.vx += imp * nx; a.vy += imp * ny; b.vx -= imp * nx; b.vy -= imp * ny;
+            a.glow = 1; b.glow = 1;
+            spawnSparks((a.x + b.x) / 2, (a.y + b.y) / 2, a.color, b.color);
+          }
+        }
+      }
+    }
+  }
+
+  function drawBubble(b) {
+    ctx.save(); ctx.globalAlpha = b.opacity;
+    if (b.glow > 0) {
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r + 10 * b.glow, 0, Math.PI * 2);
+      ctx.strokeStyle = b.color; ctx.lineWidth = 2;
+      ctx.globalAlpha = b.opacity * b.glow * 0.55;
+      ctx.shadowColor = b.color; ctx.shadowBlur = 20;
+      ctx.stroke(); ctx.shadowBlur = 0; ctx.globalAlpha = b.opacity;
+    }
+    ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    ctx.fillStyle = b.color + '1a'; ctx.fill();
+    ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    ctx.strokeStyle = b.color + (b.glow > 0.3 ? 'ff' : '77');
+    ctx.lineWidth = 1.5; ctx.shadowColor = b.color; ctx.shadowBlur = b.glow > 0.3 ? 20 : 9;
+    ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.beginPath(); ctx.arc(b.x, b.y - b.r * 0.18, b.r * 0.82, Math.PI * 0.15, Math.PI * 0.85);
+    ctx.strokeStyle = b.color + '28'; ctx.lineWidth = 0.8; ctx.stroke();
+    ctx.shadowColor = b.color; ctx.shadowBlur = b.glow > 0.1 ? 12 : 5;
+    const nfs = Math.max(10, Math.min(b.r * 0.31, 17));
+    ctx.font = `700 ${nfs}px 'JetBrains Mono',monospace`;
+    ctx.fillStyle = '#e6edf3'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(b.name, b.x, b.y - nfs * 0.45);
+    const pfs = Math.max(9, nfs * 0.78);
+    ctx.font = `400 ${pfs}px 'JetBrains Mono',monospace`;
+    ctx.fillStyle = b.color;
+    ctx.fillText(b.pct + '%', b.x, b.y + pfs * 0.95);
+    ctx.shadowBlur = 0; ctx.restore();
+  }
+
+  function update() {
+    const W = canvas.width, H = canvas.height, target = 0.5;
+    bubbles.forEach(b => {
+      if (b.opacity < 1) b.opacity = Math.min(1, b.opacity + 0.018);
+      b.x += b.vx; b.y += b.vy;
+      if (b.x - b.r < 0) { b.x = b.r; b.vx = Math.abs(b.vx); b.glow = 0.6; }
+      if (b.x + b.r > W) { b.x = W - b.r; b.vx = -Math.abs(b.vx); b.glow = 0.6; }
+      if (b.y - b.r < 0) { b.y = b.r; b.vy = Math.abs(b.vy); b.glow = 0.6; }
+      if (b.y + b.r > H) { b.y = H - b.r; b.vy = -Math.abs(b.vy); b.glow = 0.6; }
+      const spd = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+      if (spd > 0.05) { b.vx += (b.vx / spd * target - b.vx) * 0.006; b.vy += (b.vy / spd * target - b.vy) * 0.006; }
+      b.glow = Math.max(0, b.glow - 0.028);
+    });
+    resolveCollisions();
+    sparks.forEach(s => { s.x += s.vx; s.y += s.vy; s.vx *= 0.91; s.vy *= 0.91; s.life -= s.decay; });
+    sparks = sparks.filter(s => s.life > 0);
+  }
+
+  function drawSparks() {
+    sparks.forEach(s => {
+      ctx.save(); ctx.globalAlpha = s.life * 0.9;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+      ctx.fillStyle = s.color; ctx.shadowColor = s.color; ctx.shadowBlur = 7;
+      ctx.fill(); ctx.restore();
+    });
+  }
+
+  let t = 0;
+  function loop() { t++; drawBg(t); update(); drawSparks(); bubbles.forEach(drawBubble); requestAnimationFrame(loop); }
+  loop();
+</script>
