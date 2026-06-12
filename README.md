@@ -57,12 +57,19 @@ Fresher Backend Java Developer — Saigon University, Information Systems (GPA 8
 
 ---
 
+## 📊 Language Distribution
+
+<div align="center">
+  <img src="bubble_neon_v3.svg" width="100%" alt="Language Distribution" />
+</div>
+
+---
+
 ## 📈 GitHub Stats
 
 <div align="center">
 
 <img height="160" src="https://github-readme-stats.vercel.app/api?username=NKhanh0908&show_icons=true&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=00d4ff&icon_color=6db33f&text_color=e6edf3&include_all_commits=true&rank_icon=github" />
-<img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=NKhanh0908&layout=compact&theme=github_dark&hide_border=true&bg_color=0d1117&title_color=00d4ff&text_color=e6edf3&langs_count=6" />
 
 <br/>
 
